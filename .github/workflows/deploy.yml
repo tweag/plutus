@@ -22,4 +22,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         cd deployment
-        nix-shell -A tobias --argstr rev $GITHUB_SHA --command "./ci.sh"
+        nix-shell -A tobias --argstr rev $GITHUB_SHA --command "./deploy.sh"
