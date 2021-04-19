@@ -9,6 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: nixbuild/nix-quick-install-action@v5
+      with:
+        nix_conf: |
+          substituters = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/
+          trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
     - uses: webfactory/ssh-agent@v0.5.2
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -18,5 +22,5 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         cd deployment
-        nix-shell -A tobias --command "terraform apply -auto-approve -target local_file.machines -target local_file.ssh_config ./terraform/" --option trusted-public-keys "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" --option substituters "https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/"
-        nix-shell -A tobias --argstr rev $GITHUB_SHA --command deploy-nix --option trusted-public-keys "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" --option substituters "https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/"
+        nix-shell -A tobias --command "terraform apply -auto-approve -target local_file.machines -target local_file.ssh_config ./terraform/"
+        nix-shell -A tobias --argstr rev $GITHUB_SHA --command deploy-nix
