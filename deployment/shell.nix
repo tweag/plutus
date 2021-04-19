@@ -71,6 +71,7 @@ let
       # - Writes ssh configuration and copies secrets to the morph config directory
       deployNix = writeShellScriptBin "deploy-nix" ''
         set -eou pipefail
+        set -x
 
 
         # In order to ensure a consistent state we verify that terraform
@@ -128,7 +129,6 @@ let
         echo "[deploy-nix]: Starting deployment ..."
         export SSH_SKIP_HOST_KEY_CHECK=1
         export SSH_CONFIG_FILE=./plutus_playground.$DEPLOYMENT_ENV.conf
-        set +x
         ${morph}/bin/morph deploy --skip-health-checks --upload-secrets ./morph/network.nix switch
         ${morph}/bin/morph check-health ./morph/network.nix
       '';
