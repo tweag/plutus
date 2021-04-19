@@ -22,5 +22,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         cd deployment
-        nix-shell -A tobias --command "terraform apply -auto-approve -target local_file.machines -target local_file.ssh_config ./terraform/"
-        nix-shell -A tobias --argstr rev $GITHUB_SHA --command deploy-nix
+        nix-shell -A tobias --argstr rev $GITHUB_SHA --command "./ci.sh"
