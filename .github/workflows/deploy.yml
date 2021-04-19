@@ -1,0 +1,21 @@
+name: "deploy"
+on:
+  pull_request:
+  push:
+jobs:
+  deploy:
+    name: deploy to aws
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nixbuild/nix-quick-install-action@v5
+    - uses: webfactory/ssh-agent@v0.5.2
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - shell: bash
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        cd deployment
+        nix-shell -A tobias --argstr rev $GITHUB_SHA --command deploy-nix
