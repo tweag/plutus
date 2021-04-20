@@ -8,7 +8,7 @@ terraform apply -auto-approve -target local_file.machines -target local_file.ssh
 echo "**************************************************"
 ssh-add -l
 ls ./plutus_playground.tobias.conf
-ssh --version
+ssh -V
 ssh -F ./plutus_playground.tobias.conf playgrounds-a.internal.tobias.plutus.iohkdev.io hostname
 echo "**************************************************"
 
