@@ -129,7 +129,7 @@ let
         echo "[deploy-nix]: Starting deployment ..."
         export SSH_SKIP_HOST_KEY_CHECK=1
         export SSH_CONFIG_FILE=./plutus_playground.$DEPLOYMENT_ENV.conf
-        strace -ff ${morph}/bin/morph deploy --skip-health-checks --upload-secrets ./morph/network.nix switch
+        strace ${morph}/bin/morph deploy --skip-health-checks --upload-secrets ./morph/network.nix switch
         ${morph}/bin/morph check-health ./morph/network.nix
       '';
 
