@@ -9,7 +9,7 @@ echo "**************************************************"
 ssh-add -l
 ls ./plutus_playground.tobias.conf
 ssh -V
-ssh -F ./plutus_playground.tobias.conf playgrounds-a.internal.tobias.plutus.iohkdev.io hostname
+ssh -v -F ./plutus_playground.tobias.conf playgrounds-a.internal.tobias.plutus.iohkdev.io hostname
 echo "**************************************************"
 
 cat machines.json
