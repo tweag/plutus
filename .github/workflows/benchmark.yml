@@ -41,13 +41,23 @@ jobs:
 
          echo "[trigger-buildkite]: Triggering build for $PR_BRANCH"
 
-         curl --silent -H "Authorization: Bearer $BUILDKITE_API_ACCESS_TOKEN" \
-              "https://api.buildkite.com/v2/organizations/input-output-hk/pipelines/plutus-benchmark/builds" \
-              -X "POST" \
-              -F "commit=HEAD" \
-              -F "branch=${{ steps.comment-branch.outputs.head_ref }}" \
-              -F "message=benchmark" > response.json
+         #curl --silent -H "Authorization: Bearer $BUILDKITE_API_ACCESS_TOKEN" \
+              #"https://api.buildkite.com/v2/organizations/input-output-hk/pipelines/plutus-benchmark/builds" \
+              #-X "POST" \
+              #-F "commit=HEAD" \
+              #-F "branch=${{ steps.comment-branch.outputs.head_ref }}" \
+              #-F "message=benchmark" > response.json
 
-         export WEB_URL=$(jq -r ".jobs[0].web_url" response.json)
-         echo "WEB_URL=$WEB_URL" >> $GITHUB_ENV
+         curl --silent -H "Authorization: Bearer $BUILDKITE_API_ACCESS_TOKEN" \
+              -X POST "https://api.buildkite.com/v2/organizations/input-output-hk/pipelines/plutus-benchmark/builds"\
+              -d '{
+                  "commit": "HEAD",
+                  "branch": "${{ steps.comment-branch.outputs.head_ref }}",
+                  "message": "Running benchmarks",
+                    "env": {
+                      "PR_NUMBER": "${{ github.event.issue.number }}"
+                    }
+                  }'
+         #export WEB_URL=$(jq -r ".jobs[0].web_url" response.json)
+         #echo "WEB_URL=$WEB_URL" >> $GITHUB_ENV
         if: steps.check.outputs.triggered == 'true'
