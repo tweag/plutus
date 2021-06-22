@@ -55,7 +55,8 @@ jobs:
                   "branch": "${{ steps.comment-branch.outputs.head_ref }}",
                   "message": "Running benchmarks",
                     "env": {
-                      "PR_NUMBER": "${{ github.event.issue.number }}"
+                      "PR_NUMBER": "${{ github.event.issue.number }}",
+                      "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
                     }
                   }'
          #export WEB_URL=$(jq -r ".jobs[0].web_url" response.json)
